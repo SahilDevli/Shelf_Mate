@@ -1,0 +1,420 @@
+// Rich assistant content: markdown, product cards, cart summary, approvals.
+// Inherits the --chat-* tokens from the ChatBot root.
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+  min-width: 0;
+  white-space: normal;
+}
+
+.muted {
+  color: var(--chat-muted);
+  font-size: 0.8125rem;
+}
+
+/* ---------- Markdown ---------- */
+
+.markdown {
+  overflow-wrap: anywhere;
+
+  > :first-child {
+    margin-top: 0;
+  }
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin: 0 0 0.65rem;
+  }
+
+  ul,
+  ol {
+    margin: 0 0 0.65rem;
+    padding-left: 1.25rem;
+  }
+
+  li + li {
+    margin-top: 0.25rem;
+  }
+
+  strong {
+    font-weight: 650;
+    color: var(--chat-text);
+  }
+
+  a {
+    color: var(--chat-accent);
+    text-underline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: 0.9rem 0 0.4rem;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  code {
+    padding: 0.1rem 0.35rem;
+    background: var(--chat-surface-2);
+    border-radius: 6px;
+    font-size: 0.875em;
+  }
+
+  table {
+    width: 100%;
+    margin: 0 0 0.65rem;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  th,
+  td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--chat-line);
+    text-align: left;
+  }
+
+  th {
+    color: var(--chat-muted);
+    font-weight: 600;
+  }
+}
+
+/* ---------- Panels (products, cart) ---------- */
+
+.panel {
+  background: var(--chat-surface);
+  border: 1px solid var(--chat-line);
+  border-radius: 14px;
+  padding: 0.75rem;
+  overflow: hidden;
+}
+
+.panelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.storeTag {
+  padding: 0.15rem 0.55rem;
+  background: rgba(143, 180, 255, 0.14);
+  color: var(--chat-accent);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Products ---------- */
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--chat-bg);
+  border: 1px solid var(--chat-line);
+  border-radius: 12px;
+  transition: border-color 0.15s;
+
+  &:hover {
+    border-color: var(--chat-accent);
+  }
+}
+
+.productTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.productTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.price {
+  flex-shrink: 0;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--chat-accent);
+}
+
+.productDesc {
+  margin: 0;
+  color: var(--chat-muted);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0;
+
+  > div {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  dt {
+    flex-shrink: 0;
+    min-width: 3.25rem;
+    color: var(--chat-muted);
+    font-size: 0.75rem;
+  }
+
+  dd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
+  }
+}
+
+.chip,
+.chipMore {
+  padding: 0.05rem 0.5rem;
+  background: var(--chat-surface-2);
+  border: 1px solid var(--chat-line);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.chipMore {
+  color: var(--chat-muted);
+}
+
+.productFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.25rem;
+  font-size: 0.8125rem;
+
+  a {
+    color: var(--chat-accent);
+    text-underline-offset: 2px;
+  }
+}
+
+.stockIn {
+  color: #7fd6a4;
+}
+
+.stockOut {
+  color: var(--chat-danger);
+}
+
+/* ---------- Cart ---------- */
+
+.lines {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--chat-line);
+    font-size: 0.9rem;
+  }
+
+  li:last-child {
+    border-bottom: 0;
+  }
+}
+
+.lineTitle {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.changed {
+  color: var(--chat-accent);
+  font-style: normal;
+  font-size: 0.8125rem;
+}
+
+.qty {
+  color: var(--chat-muted);
+}
+
+.lineTotal {
+  min-width: 4.5rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.totals {
+  margin: 0.5rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--chat-line);
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.15rem 0;
+    font-size: 0.875rem;
+    color: var(--chat-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .grand {
+    margin-top: 0.25rem;
+    color: var(--chat-text);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+.notice {
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0.7rem;
+  background: rgba(255, 154, 154, 0.08);
+  border: 1px solid rgba(255, 154, 154, 0.3);
+  border-radius: 10px;
+  color: var(--chat-danger);
+  font-size: 0.8125rem;
+}
+
+/* ---------- Approvals ---------- */
+
+.approval {
+  padding: 0.85rem 0.9rem;
+  background: rgba(143, 180, 255, 0.08);
+  border: 1px solid rgba(143, 180, 255, 0.35);
+  border-radius: 14px;
+}
+
+.approvalLabel {
+  margin: 0 0 0.25rem;
+  color: var(--chat-accent);
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.approvalPrompt {
+  margin: 0 0 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.approvalActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.approve,
+.decline {
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  transition:
+    transform 0.1s,
+    opacity 0.15s;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.approve {
+  background: var(--chat-accent);
+  color: var(--chat-on-accent);
+  border: 0;
+}
+
+.decline {
+  background: transparent;
+  color: var(--chat-text);
+  border: 1px solid var(--chat-line);
+}
+
+.decision {
+  margin: 0;
+  color: var(--chat-muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- Activity ---------- */
+
+.activity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--chat-muted);
+  font-size: 0.875rem;
+}
+
+.spinner {
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 2px solid var(--chat-line);
+  border-top-color: var(--chat-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2.4s;
+  }
+}
